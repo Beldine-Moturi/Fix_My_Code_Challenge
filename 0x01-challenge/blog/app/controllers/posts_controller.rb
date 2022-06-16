@@ -44,6 +44,14 @@ class PostsController < ApplicationController
     redirect_to root_path
   end
 
+  def online
+    @post = Post.where(:online => true).all.order('created_at_DESC')
+
+    if @post.update(params[:post].permit(:title, :body, :online))
+      params.require(:post).permit(:title, :body, :online)
+    end
+  end
+
   private
     def post_params
       params.require(:post).permit(:title, :body)
